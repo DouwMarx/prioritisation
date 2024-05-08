@@ -31,19 +31,16 @@ class Box {
   void step() {
     x += xIncrement;
     y += yIncrement;
-    display();  // You can choose whether or not to display intermediate steps
+    display();  // Display intermediate steps
   }
 
   void display() {
-     //strokeWeight(2);
     if (approach.equals("Effective")) {
-      //noFill();  // Light green for effective
             fill(effectiveColor);
       stroke(effectiveStrokeColor);
 
       rect(x, y, width, height);
     } else {
-      //noFill();// Light red for ineffective
            fill(ineffectiveColor);
       stroke(ineffectiveStrokeColor);
  
@@ -53,74 +50,34 @@ class Box {
 }
 
 
-ArrayList<Box> effectiveBoxes; // Array that can hold Box objects //<>// //<>//
-ArrayList<Box> ineffectiveBoxes; // Array that can hold Box objects
-int nSteps = 40; //<>// //<>// //<>//
+ArrayList<Box> effectiveBoxes; // Arrays that can hold Box objects  //<>//
+ArrayList<Box> ineffectiveBoxes; 
+int nSteps = 40;  //<>//
 int animationState = 0;
 int phaseCount = 0;
 //boolean writeToFile = false;
 boolean writeToFile = true;
 
-// Specify color using hash notation
-//color backgroundColor = #273E47;
-//color effectiveColor = #FFCC00;
-//color ineffectiveColor = #BD632F; //<>// //<>//
-//color strokeColor = #D8C99B;
- //<>//
-//color backgroundColor = #22333B;
-//color effectiveStrokeColor = #0A0908; //<>//
-//color effectiveColor = 0xCC0A0908;
-//color ineffectiveStrokeColor = #EAE0D5;
-//color ineffectiveColor = 0xCCEAE0D5;
-
-
-//color effectiveColor = #a9e5bb; //<>//
-//color effectiveStrokeColor = #2d1e2f ;
-//color backgroundColor = #f72c25;
-//color ineffectiveColor = #fcf6b1 ;
-//color ineffectiveStrokeColor = #2d1e2f;
-
-//color effectiveColor = #f3b700; //<>//
-//color effectiveStrokeColor = #faa300 ;
-//color backgroundColor = #e57c04;
-//color ineffectiveColor = #ff6201 ;
-//color ineffectiveStrokeColor = #f63e02;
-
-//color effectiveColor = 255; //<>//
-//color effectiveStrokeColor = 255 ;
-//color backgroundColor = 0;
-//color ineffectiveColor = 100 ;
-//color ineffectiveStrokeColor = 100;
-
-color effectiveColor =#202020;   ; //<>//
+color effectiveColor =#202020;   ; //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 color effectiveStrokeColor = #9f9f9f ;
 color backgroundColor = #606060 ; 
 color ineffectiveColor = #dfdfdf   ;
 color ineffectiveStrokeColor = #9f9f9f ;
-
-
  //<>//
-void setup() { //<>// //<>// //<>// //<>//
+void setup() {  //<>//
   //set frame rate
   frameRate(30);
   size(800, 800);
   background(50);
-  generateBoxes(); //<>// //<>//
+  generateBoxes();  //<>//
 }
 
-
-//<>// //<>// //<>//
+ //<>//
 void draw() {
 
   background(backgroundColor);
   blendMode(BLEND);
   //blendMode(SCREEN);
-  //blendMode(ADD);
-  //blendMode(DIFFERENCE);
-  //blendMode(EXCLUSION);
-  //blendMode(HARD_LIGHT);
-  //blendMode(MULTIPLY);
-  //blendMode(OVERLAY);
 
   ++phaseCount;
 
@@ -235,10 +192,8 @@ void setupT1() {
 }
 
 void setupT2() {
-  // This operating discards the effective boxes above a certain height and the ineffective boxes below a certain height
-  // Discard means to random locations outside the screen on the opposite side of the screen
-  // Sort the effective boxes by y position
-  //effectiveBoxes.sort((Box b1, Box b2) -> Float.compare(b1.y, b2.y));
+  // Discard the effective boxes above a certain height and the ineffective boxes below a certain height
+  // Discard means move to random locations outside the screen on the opposite side of the screen
   float effectiveCutoff = height/2;
   float ineffectiveCutoff = height/2;
   // Move effective boxes below the cutoff to the right side of the screen
@@ -250,9 +205,6 @@ void setupT2() {
       box.setTarget(width + random(width), box.y, nSteps);
     }
   }
-
-  // Sort the ineffective boxes by y position
-  //ineffectiveBoxes.sort((Box b1, Box b2) -> Float.compare(b1.y, b2.y));
 
   // Move ineffective boxes above the cutoff to the left side of the screen
   for (int i = 0; i < ineffectiveBoxes.size(); i++) {
@@ -266,7 +218,7 @@ void setupT2() {
 }
 
 void setupT3() {
-  // Here, a similar operation to T1 is performed in the horizontal direction, acting on a subset of boxes
+  // Similar operation to T1 is performed in the horizontal direction, acting on a subset of boxes
   // Basically, the cumulative widths are calculated and the boxes are stacked horizontally
 
   float effectiveCutoff = height/2;
@@ -284,8 +236,6 @@ void setupT3() {
     }
 
     // ineffective boxes  are stacked from right to left
-    // reverse the order of the boxes
-
     float ineffectiveCumulativeWidth = 0;
     for (int j = 0; j < ineffectiveBoxes.size(); j++) {
       //      Box box2 = ineffectiveBoxes.get(j);
@@ -304,7 +254,7 @@ void setupT3() {
 }
 
 void setupT4() {
-  // Simply move the boxes to their final y location which is height/3 for effective and 2*height/3 for ineffective
+  // Move the boxes to their final y location which is height/3 for effective and 2*height/3 for ineffective
   for (Box box : effectiveBoxes) {
     box.setTarget(box.x, height/3, nSteps);
   }
